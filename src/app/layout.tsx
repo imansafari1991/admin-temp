@@ -6,7 +6,7 @@ import './globals.css'; // Your global styles
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { iranSansFont } from "@/assets/fonts/fonts";
-import { Breadcrumb, Button, ConfigProvider, Layout, Menu, MenuProps } from "antd";
+import { Breadcrumb, Button, ConfigProvider, Layout, Menu, MenuProps, notification } from "antd";
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import React from "react";
 import path from "path";
@@ -17,10 +17,13 @@ import 'moment/locale/fa'; // Persian (Farsi) locale
 import DefaultLayout from "./layouts/DefaultLayout";
 import { usePathname } from 'next/navigation';
 import LoginLayout from "./layouts/LoginLayout";
+import { NotificationProvider } from "@/components/notifications/NotificationContext";
+
 // Configure moment to use Jalaali calendar
 moment.loadPersian({ usePersianDigits: true });
-const { Header, Content, Sider } = Layout;
+
 const inter = Inter({ subsets: ["latin"] });
+
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   (icon, index) => {
     const key = String(index + 1);
@@ -53,17 +56,19 @@ const RoutLayout = ({
   return (
     <html lang="fa" className={`${iranSansFont.variable}  bg-slate-100 `}>
       <body className={inter.className} style={{ height: '100vh' }}>
+
         <AntdRegistry>
           <ConfigProvider direction="rtl" locale={faIR} componentSize="large" >
-            {noLayoutPaths.includes(pathName) ? <LoginLayout>{children}</LoginLayout>
-              : <DefaultLayout>{children}</DefaultLayout>
-            }
+            <NotificationProvider >
+              {noLayoutPaths.includes(pathName) ? <LoginLayout>{children}</LoginLayout>
+                : <DefaultLayout>{children}</DefaultLayout>
+              }
 
+            </NotificationProvider>
           </ConfigProvider>
-
-
-
         </AntdRegistry>
+
+
       </body>
     </html >
   );

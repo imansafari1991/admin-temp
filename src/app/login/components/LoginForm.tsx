@@ -1,19 +1,27 @@
 
 "use client"
-import { Button, Checkbox, Form, Input } from "antd";
+
+
+
+import { useNotification } from "@/components/notifications/NotificationContext";
+import { Button, Checkbox, Form, Input, notification } from "antd";
 import { FormProps } from "antd/lib";
+
 const LoginForm = () => {
     type FieldType = {
         username?: string;
         password?: string;
         remember?: string;
     };
-
+    const notify = useNotification();
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+        notify.openNotification('success', '', 'عملیات با موفقیت انجام شد.');
         console.log('Success:', values);
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+        notify.openNotification('error', '', 'عملیات با موفقیت انجام نشد.');
+
         console.log('Failed:', errorInfo);
     };
     return (
@@ -58,6 +66,7 @@ const LoginForm = () => {
                     ورود
                 </Button>
             </Form.Item>
+        
         </Form>);
 }
 
