@@ -14,9 +14,11 @@ import Link from "next/link";
 import faIR from "antd/locale/fa_IR"
 import moment from 'moment-jalaali';
 import 'moment/locale/fa'; // Persian (Farsi) locale
-
+import DefaultLayout from "./layouts/DefaultLayout";
+import { usePathname } from 'next/navigation';
+import LoginLayout from "./layouts/LoginLayout";
 // Configure moment to use Jalaali calendar
-moment.loadPersian({usePersianDigits: true});
+moment.loadPersian({ usePersianDigits: true });
 const { Header, Content, Sider } = Layout;
 const inter = Inter({ subsets: ["latin"] });
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
@@ -41,58 +43,21 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
     };
   },
 );
-
-
-export default function RootLayout({
+const RoutLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
+  const noLayoutPaths = ['/login', '/register'];
+  const pathName = usePathname();
   return (
     <html lang="fa" className={`${iranSansFont.variable}  bg-slate-100 `}>
       <body className={inter.className} style={{ height: '100vh' }}>
         <AntdRegistry>
-          <ConfigProvider direction="rtl" locale={faIR}>
-            <Layout className="!h-full">
-
-              <Layout >
-
-                <Sider width={220} className="site-layout-background !h-full" >
-                  <img src='/images/76.jpg' />
-                  <Menu
-                    mode="inline"
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
-                    style={{ height: '100%', borderRight: 0 }}
-                    items={items2}
-
-                  />
-                </Sider>
-
-
-                <Layout style={{ padding: '0 24px 24px' }}>
-                  <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                  </Breadcrumb>
-                  <Content
-                    className="site-layout-background"
-                    style={{
-                      padding: 24,
-                      margin: 0,
-                      minHeight: 280,
-                    }}
-                  >
-                    <Button type="primary"> دکمه</Button>
-                    {children}
-                  </Content>
-                </Layout>
-              </Layout>
-            </Layout>
-
-
-
+          <ConfigProvider direction="rtl" locale={faIR} componentSize="large" >
+            {noLayoutPaths.includes(pathName) ? <LoginLayout>{children}</LoginLayout>
+              : <DefaultLayout>{children}</DefaultLayout>
+            }
 
           </ConfigProvider>
 
@@ -103,3 +68,5 @@ export default function RootLayout({
     </html >
   );
 }
+
+export default RoutLayout;
