@@ -1,7 +1,5 @@
 "use client"
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import 'antd/dist/reset.css';
 import './globals.css'; // Your global styles
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
@@ -21,8 +19,6 @@ import { NotificationProvider } from "@/components/notifications/NotificationCon
 
 // Configure moment to use Jalaali calendar
 moment.loadPersian({ usePersianDigits: true });
-
-const inter = Inter({ subsets: ["latin"] });
 
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   (icon, index) => {
@@ -55,7 +51,7 @@ const RoutLayout = ({
   const pathName = usePathname();
   return (
     <html lang="fa" className={`${iranSansFont.variable}  bg-slate-100 `}>
-      <body className={inter.className} style={{ height: '100vh' }}>
+      <body className={iranSansFont.variable} style={{ height: '100vh' }}>
 
         <AntdRegistry>
           <ConfigProvider direction="rtl" locale={faIR} componentSize="large" >
